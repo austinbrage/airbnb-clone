@@ -1,7 +1,7 @@
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect } from 'react';  
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -45,7 +45,39 @@ function RootLayoutNav() {
 
   return (
     <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      
+      <Stack.Screen 
+        name="(tabs)" 
+        options={{ headerShown: false }} 
+      />
+
+      <Stack.Screen 
+        name='(modals)/login' 
+        options={{
+          headerTitleStyle: {
+            fontFamily: 'mon-sb'
+          },
+          title: 'Log in or Sign up',
+          presentation: 'modal',
+        }}
+      />
+
+      <Stack.Screen 
+        name='(modals)/booking' 
+        options={{
+          animation: 'fade',
+          presentation: 'transparentModal'
+        }}
+      />
+
+      <Stack.Screen 
+        name='listing/[id]' 
+        options={{
+          title: '',
+          presentation: 'modal'
+        }}
+      />
+
     </Stack>
   );
 }
