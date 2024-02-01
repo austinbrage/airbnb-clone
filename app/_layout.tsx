@@ -1,7 +1,28 @@
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';  
+import * as SecureStore from 'expo-secure-store'
+import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
+
+const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+const tokenCache = {
+  async getToken(key: string) {
+    try {
+      return SecureStore.getItemAsync(key)
+    } catch(err) {
+      return null
+    }
+  },
+  async saveToken(key: string, value: string) {
+    try {
+      return SecureStore.setItemAsync(key, value)
+    } catch(err) {
+      return
+    }
+  },
+}
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -38,10 +59,25 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <ClerkProvider 
+      tokenCache={tokenCache} 
+      publishableKey={CLERK_PUBLISHABLE_KEY!}
+    >
+      <RootLayoutNav />
+    </ClerkProvider>
+  )
 }
 
 function RootLayoutNav() {
+
+  const { isLoaded, isSignedIn } = useAuth()
+
+  useEffect(() => {
+    if(isLoaded && !isSignedIn) {
+      return router.push('/(modals)/login')
+    }
+  }, [isLoaded, isSignedIn])
 
   return (
     <Stack>
