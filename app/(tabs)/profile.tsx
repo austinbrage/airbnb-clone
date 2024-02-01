@@ -1,10 +1,23 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { useAuth } from '@clerk/clerk-expo'
+import { Link } from 'expo-router'
+import { Text, View, Button } from 'react-native'
 
 export default function ProfileTab() {
+
+    const { signOut, isSignedIn } = useAuth()
+
     return (
         <View>
-            <Text>Profile</Text>
+            <Button 
+                title='Sign out'
+                onPress={() => signOut()}
+            />
+            {isSignedIn ? (
+                <Link href='/(modals)/login'>
+                    <Text>Sign In</Text>
+                </Link>
+            ) : null}
         </View>
     )
 }
