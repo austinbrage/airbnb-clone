@@ -1,14 +1,23 @@
-import { View, Text } from "react-native"
+import { useState, useEffect } from 'react'
+import { View, Text, FlatList } from "react-native"
 
 interface Props {
-    listings: unknown[]
+    listings: any[]
     category: string
 }
 
-export default function Listings({ listings, category }: Props) {
+export default function Listings({ listings: items, category }: Props) {
+
+    const [loading, setLoading] = useState<boolean>(false)
+    
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => setLoading(false), 200)
+    }, [category])
+
     return (
         <View>
-            <Text></Text>
+            
         </View>
     )
 }

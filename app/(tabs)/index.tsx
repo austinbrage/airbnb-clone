@@ -9,7 +9,7 @@ import listingsData from '@/assets/data/airbnb-listings.json'
 export default function HomePage() {
 
     const [category, setCategory] = useState<string>(Categories[0].name)
-    const items = useMemo(() => listingsData as unknown[], [])
+    const items = useMemo(() => listingsData as any[], [])
 
     const onCategoryChange = (category: string) => {
         setCategory(category)
