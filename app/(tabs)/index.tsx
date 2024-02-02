@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
+import Listings from '@/components/Listings'
+import Categories from '@/constants/Categories'
+import ExploreHeader from '@/components/ExploreHeader'
 import { Text, View } from 'react-native'
-import { Link } from 'expo-router'
+import { Link, Stack } from 'expo-router'
+import listingsData from '@/assets/data/airbnb-listings.json'
 
 export default function HomePage() {
+
+    const [category, setCategory] = useState<string>(Categories[0].name)
+    const items = useMemo(() => listingsData as unknown[], [])
+
+    const onCategoryChange = (category: string) => {
+        setCategory(category)
+    }
+
     return (
-        <View>
-            <Link href='/(modals)/login'>Login</Link>
-            <Link href='/(modals)/booking'>Booking</Link>
-            <Link href='/listing/1000'>Listing</Link>
+        <View style={{ flex: 1, marginTop: 150 }}>
+            <Stack.Screen
+                options={{
+                    header: () => <ExploreHeader {...{ onCategoryChange }}/>
+                }}
+            />
+            <Listings listings={items} category={category}/>
         </View>
     )
 }
