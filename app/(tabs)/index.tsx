@@ -1,11 +1,15 @@
 import React, { useState, useMemo } from 'react'
 import Listings from '@/components/Listings'
 import Categories from '@/constants/Categories'
+import ListingsMap from '@/components/ListingsMap'
 import ExploreHeader from '@/components/ExploreHeader'
+import ListingsBottomSheet from '@/components/ListingsBottomSheet'
 import { Text, View } from 'react-native'
 import { Link, Stack } from 'expo-router'
 import listingsData from '@/assets/data/airbnb-listings.json'
+import listingsDataGeo from '@/assets/data/airbnb-listings.geo.json'
 import { type Listing } from '@/interfaces/listing'
+import { type ListingGeo } from '@/interfaces/listingGeo'
 
 export default function HomePage() {
 
@@ -23,7 +27,8 @@ export default function HomePage() {
                     header: () => <ExploreHeader {...{ onCategoryChange }}/>
                 }}
             />
-            <Listings listings={items} category={category}/>
+            <ListingsMap listings={listingsDataGeo as ListingGeo}/>
+            <ListingsBottomSheet listings={items} category={category}/>
         </View>
     )
 }
