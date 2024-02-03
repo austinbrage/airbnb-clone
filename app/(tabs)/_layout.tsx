@@ -62,6 +62,7 @@ export default function TabLayout() {
         name='profile'
         options={{
           tabBarLabel: 'Profile',
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='person-circle-outline' size={size} color={color}/>
           )
