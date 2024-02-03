@@ -1,9 +1,14 @@
+import Colors from '@/constants/Color';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import ModalHeaderText from '@/components/ModalHeaderText';
+import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import { useFonts } from 'expo-font';
 import { Stack, router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';  
 import * as SecureStore from 'expo-secure-store'
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
+import { StyleSheet } from 'react-native';
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
 
@@ -109,11 +114,31 @@ function RootLayoutNav() {
       <Stack.Screen 
         name='listing/[id]' 
         options={{
-          headerTitle: '',
-          headerTransparent: true
+          animation: 'fade',
+          headerTransparent: true,
+          presentation: 'transparentModal',
+          headerTitle: () => <ModalHeaderText/>,
+          headerLeft: () => (
+            <TouchableOpacity 
+              onPress={() => router.back()}
+              style={styles.clostBtn}  
+            >
+              <Ionicons name='close-outline' size={22}/>
+            </TouchableOpacity>
+          )
         }}
       />
 
     </Stack>
   );
 }
+
+const styles = StyleSheet.create({
+  clostBtn: {
+    backgroundColor: '#fff', 
+    borderColor: Colors.grey,
+    borderRadius: 20,
+    borderWidth: 1,
+    padding: 4
+  }
+})
