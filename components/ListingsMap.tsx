@@ -1,6 +1,7 @@
 import MapView from 'react-native-map-clustering'
-import { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import defaultStyles from '@/constants/Styles'
+import { memo } from 'react'
+import { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import { useRouter } from 'expo-router'
 import { View, Text, StyleSheet } from "react-native"
 import type { ListingGeo, Feature } from "@/interfaces/listingGeo"
@@ -16,7 +17,7 @@ const INITIAL_REGION = {
     longitudeDelta: 9,
 }
 
-export default function ListingMap({ listings }: Props) {
+export default memo(function ListingMap({ listings }: Props) {
 
     const router = useRouter()
 
@@ -83,7 +84,7 @@ export default function ListingMap({ listings }: Props) {
             </MapView>
         </View>
     )
-}
+})
 
 const styles = StyleSheet.create({
     container: {

@@ -14,7 +14,9 @@ import { type ListingGeo } from '@/interfaces/listingGeo'
 export default function HomePage() {
 
     const [category, setCategory] = useState<string>(Categories[0].name)
+    
     const items = useMemo(() => listingsData as Listing[], [])
+    const geoItems = useMemo(() => listingsDataGeo as ListingGeo, [])
 
     const onCategoryChange = (category: string) => {
         setCategory(category)
@@ -27,7 +29,7 @@ export default function HomePage() {
                     header: () => <ExploreHeader {...{ onCategoryChange }}/>
                 }}
             />
-            <ListingsMap listings={listingsDataGeo as ListingGeo}/>
+            <ListingsMap listings={geoItems}/>
             <ListingsBottomSheet listings={items} category={category}/>
         </View>
     )
