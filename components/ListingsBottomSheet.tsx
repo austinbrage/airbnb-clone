@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react'
+import React, { useRef, useState, useMemo } from 'react'
 import Colors from '@/constants/Color'
 import Listings from '@/components/Listings'
 import BottomSheet from '@gorhom/bottom-sheet'
@@ -12,11 +12,16 @@ interface Props {
 }
 
 export default function ListingsBottomSheet({ listings, category }: Props) {
-
+    
     const bottomSheetRef = useRef<BottomSheet>(null)
     const snapPoints = useMemo(() => ['10%', '100%'], [])
+    
+    const [refresh, setRefresh] = useState<number>(0)
 
-    const showMap = () => bottomSheetRef.current?.collapse()
+    const showMap = () => {
+        setRefresh(prev => prev + 1)
+        bottomSheetRef.current?.collapse()
+    }
 
     return (
         <BottomSheet 
@@ -30,7 +35,13 @@ export default function ListingsBottomSheet({ listings, category }: Props) {
             }}
         >
             <View style={{ flex: 1 }}>
-                <Listings listings={listings} category={category}/>
+
+                <Listings 
+                    listings={listings} 
+                    category={category} 
+                    refresh={refresh}
+                />
+                
                 <View style={styles.absoluteBtn}>
                     <TouchableOpacity style={styles.btn} onPress={showMap}>
                         <Text style={styles.btnText}>
@@ -39,6 +50,7 @@ export default function ListingsBottomSheet({ listings, category }: Props) {
                         <Ionicons name='map' size={20} color={'#000'}/>
                     </TouchableOpacity>
                 </View>
+
             </View>
         </BottomSheet>
     )
